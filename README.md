@@ -185,6 +185,14 @@ App will run at:
 
 ---
 
+# 📸 Screenshots (Add Later)
+
+* UI Page (`index.html`)
+* Swagger API docs
+* MongoDB Atlas data
+
+---
+
 # 🚀 Future Enhancements
 
 * ✏️ Update notes
