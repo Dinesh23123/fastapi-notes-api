@@ -73,7 +73,12 @@
               {% endif %}
             </h5>
             <p class="card-text">{{ item.desc }}</p>
-            <button class="btn btn-sm btn-warning" onclick="openEditModal('{{ item.id }}', '{{ item.title }}', '{{ item.desc }}', {{ item.important|lower }})">Edit</button>
+            <button class="btn btn-sm btn-warning" 
+                    data-id="{{ item.id }}" 
+                    data-title="{{ item.title }}" 
+                    data-desc="{{ item.desc }}" 
+                    data-important="{{ item.important }}" 
+                    onclick="openEditModal(this)">Edit</button>
             <button class="btn btn-sm btn-danger" onclick="deleteNote('{{ item.id }}')">Delete</button>
           </div>
         </div>
@@ -118,11 +123,11 @@
       let currentEditId = null;
       let editModal = null;
 
-      function openEditModal(id, title, desc, important) {
-        currentEditId = id;
-        document.getElementById('editTitle').value = title;
-        document.getElementById('editDesc').value = desc;
-        document.getElementById('editImportant').checked = important;
+      function openEditModal(btn) {
+        currentEditId = btn.getAttribute('data-id');
+        document.getElementById('editTitle').value = btn.getAttribute('data-title');
+        document.getElementById('editDesc').value = btn.getAttribute('data-desc');
+        document.getElementById('editImportant').checked = btn.getAttribute('data-important') === 'True';
         
         if (!editModal) {
           editModal = new bootstrap.Modal(document.getElementById('editModal'));
