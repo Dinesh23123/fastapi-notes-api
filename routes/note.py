@@ -1,3 +1,4 @@
+from bson import ObjectId
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi import APIRouter
@@ -31,3 +32,16 @@ async def create_item(request: Request):
     formDict["important"] = True if formDict.get("important") == "on" else False
     inserted_note = conn.notes.notes.insert_one(formDict)
     return {"Success": True, "id": str(inserted_note.inserted_id)}
+
+@note.put("/{id}")
+async def update_item(id: str, request: Request):
+    form = await request.form()
+    formDict = dict(form)
+    formDict["important"] = True if formDict.get("important") == "on" else False
+    updated_note = conn.notes.notes.update_one({"_id": ObjectId(id)}, {"$set": formDict})
+    return {"Success": True, "updated_count": updated_note.modified_count}
+
+@note.delete("/{id}")
+async def delete_item(id: str):
+    deleted_note = conn.notes.notes.delete_one({"_id": ObjectId(id)})
+    return {"Success": True, "deleted_count": deleted_note.deleted_count}
